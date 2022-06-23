@@ -59,19 +59,19 @@ class SEE:
 				if isdir(pathjoin(path, f)):
 					self.encrypt(pathjoin(path, f))
 					continue
-				with open(pathjoin(path, f), "r") as fd:
+				with open(pathjoin(path, f), "rb") as fd:
 					data = fd.read()
 				with open(pathjoin(path, f.replace(".","_")+".enc"), "wb") as fd:
-					encryptedData = enc.encrypt(data.encode("utf8"))
+					encryptedData = enc.encrypt(data)
 					fd.write(encryptedData)
 				remove(pathjoin(path, f))
 		elif isfile(path):
 			f = basename(path)
 			path = dirname(path)
-			with open(pathjoin(path, f), "r") as fd:
+			with open(pathjoin(path, f), "rb") as fd:
 					data = fd.read()
 			with open(pathjoin(path,f.replace(".","_")+".enc"), "wb") as fd:
-				encryptedData = enc.encrypt(data.encode("utf8"))
+				encryptedData = enc.encrypt(data)
 				fd.write(encryptedData)
 		else:
 			print("Path does not exist. Unable to encrypt.")
@@ -93,18 +93,18 @@ class SEE:
 					continue
 				with open(pathjoin(path, f), "rb") as fd:
 					data = fd.read()
-				with open(pathjoin(path ,f.replace("_",".").removesuffix(".enc")), "w") as fd:
+				with open(pathjoin(path ,f.replace("_",".").removesuffix(".enc")), "wb") as fd:
 					decryptedData = enc.decrypt(data)
-					fd.write(decryptedData.decode('utf8'))
+					fd.write(decryptedData)
 				remove(pathjoin(path, f))
 		elif isfile(path):
 			f = basename(path)
 			path = dirname(path)
 			with open(pathjoin(path, f), "rb") as fd:
 					data = fd.read()
-			with open(pathjoin(path, f.replace("_",".").removesuffix(".enc")), "w") as fd:
+			with open(pathjoin(path, f.replace("_",".").removesuffix(".enc")), "wb") as fd:
 				decryptedData = enc.decrypt(data)
-				fd.write(decryptedData.decode("utf8"))
+				fd.write(decryptedData)
 			remove(pathjoin(path, f))
 		else:
 			print("Path does not exist. Unable to encrypt.")
